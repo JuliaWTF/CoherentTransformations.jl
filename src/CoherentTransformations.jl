@@ -4,6 +4,9 @@ using CoherentNoise
 using ImageTransformations
 using Random: AbstractRNG, default_rng
 
+export CoherentNoise
+export noise_warp
+
 
 """
 This is a cheaper version of `gen_image` from `CoherentNoise`, which does not generate
