@@ -3,6 +3,10 @@ uuid = "77ba1a33-2bad-462b-8444-1926d7830738"
 authors = ["Théo Galy-Fajou <theo.galyfajou@gmail.com> and contributors"]
 version = "0.1.0"
 
+[deps]
+CoherentNoise = "3547b4d8-3bdb-4c10-a099-d01a31e852e0"
+ImageTransformations = "02fcd773-0e25-5acc-982a-7f6622650795"
+
 [compat]
 julia = "1.6"
 

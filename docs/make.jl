@@ -1,7 +1,9 @@
 using CoherentTransformations
 using Documenter
 
-DocMeta.setdocmeta!(CoherentTransformations, :DocTestSetup, :(using CoherentTransformations); recursive=true)
+DocMeta.setdocmeta!(
+    CoherentTransformations, :DocTestSetup, :(using CoherentTransformations); recursive=true
+)
 
 makedocs(;
     modules=[CoherentTransformations],
@@ -14,12 +16,7 @@ makedocs(;
         edit_link="main",
         assets=String[],
     ),
-    pages=[
-        "Home" => "index.md",
-    ],
+    pages=["Home" => "index.md"],
 )
 
-deploydocs(;
-    repo="github.com/theogf/CoherentTransformations.jl",
-    devbranch="main",
-)
+deploydocs(; repo="github.com/theogf/CoherentTransformations.jl", devbranch="main")
