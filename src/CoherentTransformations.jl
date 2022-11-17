@@ -16,7 +16,7 @@ a `RGB` matrix but a matrix of type `T`.
 function gen_coherent_matrix(
     sampler::S;
     rng::AbstractRNG=default_rng(),
-    T::Type{<:Real} = Float64,
+    T::Type{<:Real}=Float64,
     width::Integer=1024,
     height::Integer=1024,
     xbounds::NTuple{2,<:Real}=(-1.0, 1.0),
@@ -41,30 +41,31 @@ end
 function gen_coherent_matrix(
     sampler::S;
     rng::AbstractRNG=default_rng(),
-    T::Type{<:Real} = Float64,
+    T::Type{<:Real}=Float64,
     width::Integer=1024,
     height::Integer=1024,
     xbounds::NTuple{2,<:Real}=(-1.0, 1.0),
     ybounds::NTuple{2,<:Real}=(-1.0, 1.0),
-) where {N,S<:AbstractSampler{N}}
+) where {S<:AbstractSampler{1}}
     xmin, xmax = xbounds
     ymin, ymax = ybounds
     xd = (xmax - xmin) / width
     yd = (ymax - ymin) / height
     X = Matrix{T}(undef, height, width)
-    zw = (rand(rng, Float64, N - 2) .- 0.5) * 1000
     Threads.@threads for x in 1:height
         cx = x * xd + xmin
         for y in 1:width
             cy = y * yd + ymin
-            @inbounds X[x, y] = clamp(sample(sampler, cx, cy, zw...) * 0.5 + 0.5, 0, 1)
+            @inbounds X[x, y] = clamp(
+                sample(sampler, rand(rng, (cx, cy))) * 0.5 + 0.5, 0, 1
+            )
         end
     end
     return X
 end
 
 """
-    noise_warp(img, noise_source::AbstractSampler; squared=true, variance=0.1, crop=true)
+    noise_warp(img, noise_source::AbstractSampler; squared = true, variance = 0.1, crop = true)
 
 `noise_warp` takes both an `img` and a `noise_source` built from `CoherentNoise.jl`
 and returns a warpped image.
@@ -81,7 +82,7 @@ function noise_warp(
     img, noise_source::AbstractSampler; squared=true, variance=0.1, crop=true
 )
     !crop ||
-        variance < 0.5 ||
+        0 < variance < 0.5 ||
         error(
             "(relative) variance needs to be smaller to 50% (0.5) to avoid cropping the whole image.",
         )
@@ -123,6 +124,7 @@ function checker_warp(
     )
 end
 
+"Use a combination of `opensimplex2_3d` and `ridged_fractal_3d` for a ridged effect."
 function ridged_warp(
     img;
     rng::AbstractRNG=default_rng(),
@@ -135,10 +137,13 @@ function ridged_warp(
     crop=true,
 )
     source = opensimplex2_3d(; seed=rand(rng, UInt))
-    source = ridged_fractal_3d(; source, frequency, persistence, attenuation)
+    source = ridged_fractal_3d(;
+        seed=rand(rng, UInt), source, frequency, persistence, attenuation
+    )
     return noise_warp(img, CoherentNoise.scale(source, scaling); squared, variance, crop)
 end
 
+"Use the `cylinders_2d` noise from `CoherenNoise` for a cylinder effect"
 function cylinder_warp(
     img;
     rng::AbstractRNG=default_rng(),
@@ -152,6 +157,7 @@ function cylinder_warp(
     return noise_warp(img, CoherentNoise.scale(source, scaling); squared, variance, crop)
 end
 
+"Use the `spheres_3d` noise from `CoherenNoise` for a spherical effect"
 function sphere_warp(
     img;
     rng::AbstractRNG=default_rng(),

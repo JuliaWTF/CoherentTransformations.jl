@@ -6,7 +6,11 @@ DocMeta.setdocmeta!(
     CoherentTransformations, :DocTestSetup, :(using CoherentTransformations); recursive=true
 )
 
-Literate.markdown(joinpath(@__DIR__, "examples", "coherent_noise.jl"), joinpath(@__DIR__, "examples"); flavor = Literate.DocumenterFlavor())
+Literate.markdown(
+    joinpath(@__DIR__, "examples", "coherent_noise.jl"),
+    joinpath(@__DIR__, "src", "examples");
+    flavor=Literate.DocumenterFlavor(),
+)
 
 makedocs(;
     modules=[CoherentTransformations],

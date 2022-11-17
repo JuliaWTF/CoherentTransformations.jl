@@ -2,16 +2,16 @@
 EditURL = "<unknown>/docs/examples/coherent_noise.jl"
 ```
 
-# Example of using CoherentNoise
+# [Example of using CoherentNoise](@id example)
 Let's show how to use CoherentTransformations in pair with CoherentNoise.jl.
 We first load a couple of useful packages
 
 ````@example coherent_noise
 using CoherentTransformations
 using CoherentNoise
-using ImageIO # For saving images
+using ImageShow
 using MosaicViews: mosaicview
-using TestImages # For loading images
+using TestImages
 ````
 
 We can load a couple of images.
@@ -36,10 +36,10 @@ And let's build a function to visualize all this
 
 ````@example coherent_noise
 function panorama(images)
-    mosaicview(images; nrow = 1)
+    return mosaicview(images; nrow=1)
 end
 imgs = (fabio, mountain, cameraman)
-panorama(imgs...)
+panorama(imgs)
 ````
 
 Let's build a structured noise:
@@ -72,7 +72,7 @@ panorama(cylinder_warp.(imgs))
 ````
 
 ````@example coherent_noise
-panoram(sphere_warp.(imgs))
+panorama(sphere_warp.(imgs))
 ````
 
 ---

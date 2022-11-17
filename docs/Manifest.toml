@@ -2,7 +2,7 @@
 
 julia_version = "1.8.2"
 manifest_format = "2.0"
-project_hash = "92c23570e97046282e255cf4cba2e42de11243ec"
+project_hash = "8f380238ad624b9b271d18fb0507e2bd551514bb"
 
 [[deps.ANSIColoredPrinters]]
 git-tree-sha1 = "574baf8110975760d391c710b6341da1afa48d8c"
@@ -73,10 +73,10 @@ uuid = "3547b4d8-3bdb-4c10-a099-d01a31e852e0"
 version = "1.6.5"
 
 [[deps.CoherentTransformations]]
-deps = ["CoherentNoise", "ImageTransformations", "Random", "StaticArrays", "TestImages"]
+deps = ["CoherentNoise", "ImageTransformations", "Random", "StaticArrays"]
 path = ".."
 uuid = "77ba1a33-2bad-462b-8444-1926d7830738"
-version = "0.1.0"
+version = "1.0.0"
 
 [[deps.ColorSchemes]]
 deps = ["ColorTypes", "ColorVectorSpace", "Colors", "FixedPointNumbers", "Random"]
@@ -253,6 +253,12 @@ deps = ["Artifacts", "Ghostscript_jll", "JLLWrappers", "JpegTurbo_jll", "Libdl",
 git-tree-sha1 = "124626988534986113cfd876e3093e4a03890f58"
 uuid = "c73af94c-d91f-53ed-93a7-00f77d67a9d7"
 version = "6.9.12+3"
+
+[[deps.ImageShow]]
+deps = ["Base64", "FileIO", "ImageBase", "ImageCore", "OffsetArrays", "StackViews"]
+git-tree-sha1 = "b563cf9ae75a635592fc73d3eb78b86220e55bd8"
+uuid = "4e3cecfd-b093-5904-9786-8bbb286a6a31"
+version = "0.3.6"
 
 [[deps.ImageTransformations]]
 deps = ["AxisAlgorithms", "ColorVectorSpace", "CoordinateTransformations", "ImageBase", "ImageCore", "Interpolations", "OffsetArrays", "Rotations", "StaticArrays"]

@@ -1,11 +1,11 @@
-# # Example of using CoherentNoise
+# # [Example of using CoherentNoise](@id example)
 # Let's show how to use CoherentTransformations in pair with CoherentNoise.jl.
 # We first load a couple of useful packages
 using CoherentTransformations
 using CoherentNoise
-using ImageIO # For saving images
+using ImageShow
 using MosaicViews: mosaicview
-using TestImages # For loading images
+using TestImages
 # We can load a couple of images.
 fabio = testimage("fabio_color_512.png")
 # A boring landscape
@@ -14,10 +14,10 @@ mountain = testimage("mountainstream.png")
 cameraman = testimage("cameraman.tif")
 # And let's build a function to visualize all this
 function panorama(images)
-    mosaicview(images; nrow = 1)
+    return mosaicview(images; nrow=1)
 end
 imgs = (fabio, mountain, cameraman)
-panorama(imgs...)
+panorama(imgs)
 # Let's build a structured noise:
 checkered_noise = checkered_2d();
 # We can use the `noise_warp` to apply it to the images:
@@ -29,4 +29,4 @@ panorama(ridged_warp.(imgs))
 #
 panorama(cylinder_warp.(imgs))
 #
-panoram(sphere_warp.(imgs))
+panorama(sphere_warp.(imgs))
