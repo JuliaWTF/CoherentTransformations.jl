@@ -1,9 +1,12 @@
 using CoherentTransformations
 using Documenter
+using Literate
 
 DocMeta.setdocmeta!(
     CoherentTransformations, :DocTestSetup, :(using CoherentTransformations); recursive=true
 )
+
+Literate.markdown(joinpath(@__DIR__, "examples", "coherent_noise.jl"), joinpath(@__DIR__, "examples"); flavor = Literate.DocumenterFlavor())
 
 makedocs(;
     modules=[CoherentTransformations],
@@ -16,7 +19,7 @@ makedocs(;
         edit_link="main",
         assets=String[],
     ),
-    pages=["Home" => "index.md"],
+    pages=["Home" => "index.md", "Example" => "examples/coherent_noise.md"],
 )
 
 deploydocs(; repo="github.com/theogf/CoherentTransformations.jl", devbranch="main")

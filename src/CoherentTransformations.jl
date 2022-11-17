@@ -1,35 +1,63 @@
 module CoherentTransformations
 
 using CoherentNoise
-using ImageTransformations
+using ImageTransformations: warp, imresize
 using Random: AbstractRNG, default_rng
+using StaticArrays
 
 export CoherentNoise
 export noise_warp
-
+export checker_warp, ridged_warp, cylinder_warp, sphere_warp
 
 """
 This is a cheaper version of `gen_image` from `CoherentNoise`, which does not generate
-a RGB matrix but a matrix of type T
+a `RGB` matrix but a matrix of type `T`.
 """
 function gen_coherent_matrix(
     sampler::S;
     rng::AbstractRNG=default_rng(),
-    ::Type{T} = Float64,
+    T::Type{<:Real} = Float64,
     width::Integer=1024,
     height::Integer=1024,
-    (xmin, xmax)::NTuple{2,Float64}=(-1.0, 1.0),
-    (ymin, ymax)::NTuple{2,Float64}=(-1.0, 1.0),
-) where {N,T,S<:AbstractSampler{N}}
+    xbounds::NTuple{2,<:Real}=(-1.0, 1.0),
+    ybounds::NTuple{2,<:Real}=(-1.0, 1.0),
+) where {N,S<:AbstractSampler{N}}
+    xmin, xmax = xbounds
+    ymin, ymax = ybounds
     xd = (xmax - xmin) / width
     yd = (ymax - ymin) / height
-    X = Matrix{T}(undef, heigth, width)
+    X = Matrix{T}(undef, height, width)
     zw = rand(rng, Float64, N - 2) * 1000
     Threads.@threads for x in 1:height
-        cx = x * xd + x1
+        cx = x * xd + xmin
         for y in 1:width
-            cy = y * yd + y1
-            X[x, y] = clamp(sample(sampler, cx, cy, zw...) * 0.5 + 0.5, 0, 1)
+            cy = y * yd + ymin
+            @inbounds X[x, y] = clamp(sample(sampler, cx, cy, zw...) * 0.5 + 0.5, 0, 1)
+        end
+    end
+    return X
+end
+
+function gen_coherent_matrix(
+    sampler::S;
+    rng::AbstractRNG=default_rng(),
+    T::Type{<:Real} = Float64,
+    width::Integer=1024,
+    height::Integer=1024,
+    xbounds::NTuple{2,<:Real}=(-1.0, 1.0),
+    ybounds::NTuple{2,<:Real}=(-1.0, 1.0),
+) where {N,S<:AbstractSampler{N}}
+    xmin, xmax = xbounds
+    ymin, ymax = ybounds
+    xd = (xmax - xmin) / width
+    yd = (ymax - ymin) / height
+    X = Matrix{T}(undef, height, width)
+    zw = (rand(rng, Float64, N - 2) .- 0.5) * 1000
+    Threads.@threads for x in 1:height
+        cx = x * xd + xmin
+        for y in 1:width
+            cy = y * yd + ymin
+            @inbounds X[x, y] = clamp(sample(sampler, cx, cy, zw...) * 0.5 + 0.5, 0, 1)
         end
     end
     return X
@@ -49,7 +77,6 @@ and scaling them with `variance * size`.
 - `ImageTransformations` apply the transformations and adaptively warp the image.
 - If `crop` is true, the image will be cropped to ensure no `NaN` values are contained.
 """
-
 function noise_warp(
     img, noise_source::AbstractSampler; squared=true, variance=0.1, crop=true
 )
@@ -76,7 +103,7 @@ function noise_warp(
                 (begin + variances[1]):(end - variances[1]),
                 (begin + variances[2]):(end - variances[2]),
             ],
-            (h, w),
+            (height, width),
         ) # This crops out given the variances.
     else
         img # This crops out given the variances.
