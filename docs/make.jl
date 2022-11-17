@@ -26,4 +26,4 @@ makedocs(;
     pages=["Home" => "index.md", "Example" => "examples/coherent_noise.md"],
 )
 
-deploydocs(; repo="github.com/theogf/CoherentTransformations.jl", devbranch="main")
+deploydocs(; repo="github.com/theogf/CoherentTransformations.jl", push_preview=true, devbranch="main")
