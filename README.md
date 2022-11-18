@@ -1,4 +1,4 @@
-# CoherentTransformations
+# ![CoherentTransformations.jl logo](docs/assets/logo.png) CoherentTransformations
 
 [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://theogf.github.io/CoherentTransformations.jl/stable/)
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://theogf.github.io/CoherentTransformations.jl/dev/)
