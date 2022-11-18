@@ -1,6 +1,6 @@
 # # CoherentTransformations logo creation
 # We first generate 3 different circles for the Julia logo
-using Colors: JULIA_LOGO_COLORS
+using Colors: JULIA_LOGO_COLORS, ARGB32
 using Luxor
 red, green, blue, purple = JULIA_LOGO_COLORS
 
@@ -27,4 +27,5 @@ for i in 1:3
 end
 finish()
 preview()
-# Tada!
+# Tada! 
+# ![Generateed logo](./logo.png)
