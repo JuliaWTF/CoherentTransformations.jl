@@ -6,11 +6,12 @@ DocMeta.setdocmeta!(
     CoherentTransformations, :DocTestSetup, :(using CoherentTransformations); recursive=true
 )
 
-Literate.markdown(
-    joinpath(@__DIR__, "examples", "coherent_noise.jl"),
-    joinpath(@__DIR__, "src", "examples");
-    flavor=Literate.DocumenterFlavor(),
-)
+outdir = joinpath(@__DIR__, "src", "examples")
+example_dir = joinpath(@__DIR__, "examples")
+
+for file in readdir(example_dir; join=true)
+    Literate.markdown(file, outdir; flavor=Literate.DocumenterFlavor())
+end
 
 makedocs(;
     modules=[CoherentTransformations],
@@ -23,7 +24,15 @@ makedocs(;
         edit_link="main",
         assets=String[],
     ),
-    pages=["Home" => "index.md", "Example" => "examples/coherent_noise.md"],
+    pages=[
+        "Home" => "index.md",
+        "Examples" => [
+            "First steps" => "examples/coherent_noise.md",
+            "Logo Making" => "examples/logo.md",
+        ],
+    ],
 )
 
-deploydocs(; repo="github.com/theogf/CoherentTransformations.jl", push_preview=true, devbranch="main")
+deploydocs(;
+    repo="github.com/theogf/CoherentTransformations.jl", push_preview=true, devbranch="main"
+)
