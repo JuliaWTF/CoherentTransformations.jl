@@ -16,7 +16,7 @@ end
 makedocs(;
     modules=[CoherentTransformations],
     authors="Théo Galy-Fajou <theo.galyfajou@gmail.com> and contributors",
-    repo="https://github.com/theogf/CoherentTransformations.jl/blob/{commit}{path}#{line}",
+    repo="https://github.com/JuliaWTF/CoherentTransformations.jl/blob/{commit}{path}#{line}",
     sitename="CoherentTransformations.jl",
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
