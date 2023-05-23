@@ -1,7 +1,7 @@
 name = "CoherentTransformations"
 uuid = "77ba1a33-2bad-462b-8444-1926d7830738"
 authors = ["Théo Galy-Fajou <theo.galyfajou@gmail.com> and contributors"]
-version = "1.0.0"
+version = "1.0.1"
 
 [deps]
 CoherentNoise = "3547b4d8-3bdb-4c10-a099-d01a31e852e0"
