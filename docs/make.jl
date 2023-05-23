@@ -34,5 +34,5 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="github.com/theogf/CoherentTransformations.jl", push_preview=true, devbranch="main"
+    repo="github.com/JuliaWTF/CoherentTransformations.jl", push_preview=true, devbranch="main"
 )
